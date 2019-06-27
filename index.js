@@ -57,6 +57,15 @@ class Cache {
   }
 
   /**
+   * Invalidates an object from the cache.
+   * 
+   * @param {string} key Key of object to invalidate.
+   */
+  invalidate(key) {
+    this.items[key].ttl = (new Date()).getTime(); // invalidate object
+  }
+
+  /**
    * Retrieves an object from the cache and returns it. If no object is found
    * for the given key, null is returned instead.
    *
