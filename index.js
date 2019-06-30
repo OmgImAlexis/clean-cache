@@ -62,7 +62,8 @@ class Cache {
    * @param {string} key Key of object to invalidate.
    */
   invalidate(key) {
-    this.items[key].ttl = (new Date()).getTime(); // invalidate object
+    const value = this.items[key];
+    this.items[key] = new CacheItem(value, 0);
   }
 
   /**
