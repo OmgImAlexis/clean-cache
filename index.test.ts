@@ -1,11 +1,10 @@
 /* eslint-env mocha */
-const sinon = require('sinon');
-const { expect } = require('chai');
-
-const { Cache } = require('./index');
+import sinon from 'sinon';
+import { expect } from 'chai';
+import { Cache } from './src';
 
 describe('Cache', () => {
-  let sandbox = {};
+  let sandbox = sinon.createSandbox();
   const TTL = 600000;
 
   beforeEach(() => {
@@ -134,11 +133,11 @@ describe('Cache', () => {
 
       // VERIFY
       expect(c.count()).to.be.equal(3);
-      expect(c.retrieve('1')).to.be.equal(newObj);
+      expect(c.get('1')).to.be.equal(newObj);
     });
   });
 
-  describe('retrieve()', () => {
+  describe('get()', () => {
     it('should return the objects added with add()', () => {
       // PREPARE
       const c = new Cache(TTL);
@@ -147,7 +146,7 @@ describe('Cache', () => {
       c.add('1', obj);
 
       // SYSTEM UNDER TEST
-      const returned = c.retrieve('1');
+      const returned = c.get('1');
 
       // VERIFY
       expect(returned).to.be.equal(obj);
@@ -161,7 +160,7 @@ describe('Cache', () => {
       c.add('1', obj);
 
       // SYSTEM UNDER TEST
-      const returned = c.retrieve('2');
+      const returned = c.get('2');
 
       // VERIFY
       expect(returned).to.be.equal(null);
@@ -184,13 +183,13 @@ describe('Cache', () => {
       });
 
       // SYSTEM UNDER TEST
-      const returned = c.retrieve('2');
+      const returned = c.get('2');
 
       // VERIFY
       expect(returned).to.be.equal(null);
     });
 
-    it('should delete expired items if it was attempted to retrieve them', () => {
+    it('should delete expired items if it was attempted to get them', () => {
       // PREPARE
       const c = new Cache(TTL);
       const obj1 = { some: 'prop' };
@@ -207,7 +206,7 @@ describe('Cache', () => {
       });
 
       // SYSTEM UNDER TEST
-      c.retrieve('2');
+      c.get('2');
 
       // VERIFY
       expect(c.count()).to.be.equal(1);
@@ -223,7 +222,7 @@ describe('Cache', () => {
 
       // SYSTEM UNDER TEST
       try {
-        c.retrieve(null);
+        c.get(null);
       } catch (error) {
         errorMessage = error.message;
       }
@@ -242,7 +241,7 @@ describe('Cache', () => {
 
       // SYSTEM UNDER TEST
       try {
-        c.retrieve(undefined);
+        c.get(undefined);
       } catch (error) {
         errorMessage = error.message;
       }
@@ -402,10 +401,10 @@ describe('Cache', () => {
 
       // VERIFY
       expect(c.count()).to.be.equal(4);
-      expect(c.retrieve('1')).to.be.equal(obj1);
-      expect(c.retrieve('2')).to.be.equal(obj2);
-      expect(c.retrieve('3')).to.be.equal(obj3);
-      expect(c.retrieve('4')).to.be.equal(obj4);
+      expect(c.get('1')).to.be.equal(obj1);
+      expect(c.get('2')).to.be.equal(obj2);
+      expect(c.get('3')).to.be.equal(obj3);
+      expect(c.get('4')).to.be.equal(obj4);
     });
 
     it('should work if cache is empty', () => {

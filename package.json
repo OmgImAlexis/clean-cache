@@ -3,13 +3,19 @@
   "version": "1.0.2",
   "description": "Simple single-file, in-memory cache.",
   "main": "index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "nyc mocha --timeout=3000 .",
+    "build": "tsc",
+    "types": "tsc -d --declarationMap --emitDeclarationOnly",
+    "test": "nyc ts-mocha --timeout=3000 ./*.test.ts",
     "lint": "./node_modules/.bin/eslint *.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "prepublishOnly": "npm run test && npm run lint"
+    "prepublishOnly": "npm run test && npm run lint",
+    "prepare": "npm run build && npm run types"
   },
   "devDependencies": {
+    "@types/expect": "24.3.0",
+    "@types/mocha": "7.0.1",
     "chai": "^4.1.2",
     "coveralls": "^3.0.1",
     "eslint": "^5.16.0",
@@ -19,7 +25,10 @@
     "mocha": "^5.2.0",
     "mocha-lcov-reporter": "^1.3.0",
     "nyc": "^13.3.0",
-    "sinon": "^6.0.0"
+    "sinon": "^6.0.0",
+    "ts-mocha": "6.0.0",
+    "tsc": "1.20150623.0",
+    "typescript": "3.7.5"
   },
   "repository": {
     "type": "git",
