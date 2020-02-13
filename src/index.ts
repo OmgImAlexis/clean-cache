@@ -45,7 +45,7 @@ class Cache<T = any> {
    * @param key Key to store the item under
    * @param value The object to store in cache
    */
-  add(key: string, value: { [key: string]: any }, ttl = null) {
+  add(key: string, value: { [key: string]: any }, ttl: number) {
     // Invalid key
     if (key === null) {
       throw new Error("Can't add object under key 'null'");
