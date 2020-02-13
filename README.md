@@ -19,23 +19,31 @@ npm install clean-cache
 ```javascript
 const { Cache } = require('clean-cache');
 
-const myCache = new Cache(30000);       // ttl in ms, if omitted defaults to 60s
+const options = {
+    // `true` if the item should be updated.
+    // `false` to throw an error.
+    // Defaults false (throwing an error).
+    overrideOnMatch: false
+};
+
+const cache = new Cache(30000);             // ttl in ms, if omitted defaults to 60s
+const cache = new Cache(30000, options);    // options can be passed
 
 // adding items
-myCache.add('1', { foo: 'bar' });       // adds object under key '1' for 30s
-myCache.add('2', { foo: 'bar' }, 1000); // expires in 1s instead of 30s
-myCache.add(null, { foo: 'bar' });      // throws error
-myCache.add(undefined, { foo: 'bar' }); // throws error
+cache.add('1', { foo: 'bar' });       // adds object under key '1' for 30s
+cache.add('2', { foo: 'bar' }, 1000); // expires in 1s instead of 30s
+cache.add(null, { foo: 'bar' });      // throws error (see below)
+cache.add(undefined, { foo: 'bar' }); // throws error
 
-// retrieving items
-myCache.retrieve('1');                  // returns { foo: 'bar' }
-myCache.retrieve('non-existent');       // returns null
-myCache.retrieve(null);                 // throws error
-myCache.retrieve(undefined);            // throws error
+// getting items
+cache.get('1');                       // returns { foo: 'bar' }
+cache.get('non-existent');            // returns null
+cache.get(null);                      // throws error
+cache.get(undefined);                 // throws error
 
 // other
-myCache.count();                        // returns number of objects in cache
-myCache.tidy();                         // removes all expired items from cache
+cache.count();                        // returns number of objects in cache
+cache.tidy();                         // removes all expired items from cache
 ```
 
 ## License

@@ -14,7 +14,12 @@ class CacheItem<T = any> {
 }
 
 interface CacheOptions {
-  overrideOnMatch?: boolean
+  /**
+   * `true` if the item should be updated.
+   *
+   * `false` to throw an error.
+   */
+  overrideOnMatch: boolean
 }
 
 /**
@@ -26,7 +31,9 @@ class Cache<T = any> {
   /**
    * @param ttl Time an item remains in cache (in ms).
    */
-  constructor(public ttl: number = 60000, public options: CacheOptions = {}) {
+  constructor(public ttl: number = 60000, public options: CacheOptions = {
+    overrideOnMatch: false
+  }) {
     this.items = {};
   }
 
@@ -61,7 +68,9 @@ class Cache<T = any> {
 
     // Cache item is still valid
     if (!Cache.isItemInvalid(this.items[key])) {
-      throw new Error(`There already is an object stored under the key '${key}'`);
+      if (this.options.overrideOnMatch === false) {
+        throw new Error(`There already is an object stored under the key '${key}'`);
+      }
     }
 
     // Cache item is invalid and can be replaced
