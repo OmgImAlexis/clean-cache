@@ -5,10 +5,10 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "types": "tsc -d --declarationMap --emitDeclarationOnly",
+    "build": "node_modules/.bin/tsc",
+    "types": "node_modules/.bin/tsc -d --declarationMap --emitDeclarationOnly",
     "test": "nyc ts-mocha --timeout=3000 ./*.test.ts",
-    "lint": "./node_modules/.bin/eslint *.js",
+    "lint": "node_modules/.bin/eslint *.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "prepublishOnly": "npm run test && npm run lint",
     "prepare": "npm run build && npm run types"
