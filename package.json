@@ -1,6 +1,6 @@
 {
   "name": "clean-cache",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simple single-file, in-memory cache.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
