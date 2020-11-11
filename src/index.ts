@@ -84,7 +84,9 @@ class Cache<T = any> {
    */
   invalidate(key: string) {
     const value = this.items[key];
-    this.items[key] = new CacheItem(value.value, 0);
+    if (value && value.value) {
+      this.items[key] = new CacheItem(value.value, 0);
+    }
   }
 
   /**
